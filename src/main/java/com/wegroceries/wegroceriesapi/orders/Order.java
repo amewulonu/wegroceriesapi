@@ -1,11 +1,12 @@
 package com.wegroceries.wegroceriesapi.orders;
 
-
-
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
+
+import com.wegroceries.wegroceriesapi.products.Product;
+import com.wegroceries.wegroceriesapi.users.User;
 
 @Entity
 @Table(name = "orders")
@@ -21,19 +22,29 @@ public class Order {
   private String buyer;
   private Instant transactionDate;
 
+@ManyToOne(fetch = FetchType.LAZY) //Many orders can belong one user
+@JoinColumn(name = "user_id", nullable = false) //Foreign key in order table
+private User user;
+
+ // Many-to-One relationship with Product
+@ManyToOne
+@JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
   // Parameterized Constructor
-  public Order(String itemName, String category, BigDecimal price, String seller, String buyer, Instant transactionDate) {
+  public Order(String itemName, String category, BigDecimal price, String seller, String buyer, Instant transactionDate, Product product) {
     this.itemName = itemName;
     this.category = category;
     this.price = price;
     this.seller = seller;
     this.buyer = buyer;
     this.transactionDate = transactionDate;
+    this.product = product;
   }
 
   // Default Constructor
   public Order() {
-    this("Default Item", "General", BigDecimal.ZERO, "Default Seller", "Default Buyer", Instant.now());
+    this("Default Item", "General", BigDecimal.ZERO, "Default Seller", "Default Buyer", Instant.now(), new Product());
   }
 
   // Getters and Setters
@@ -73,6 +84,14 @@ public class Order {
     this.seller = seller;
   }
 
+  public Product getProduct() {
+    return product;
+}
+
+public void setProduct(Product product) {
+    this.product = product;
+}
+
   public String getBuyer() {
     return buyer;
   }
@@ -98,8 +117,8 @@ public class Order {
             ", category='" + category + '\'' +
             ", price=" + price +
             ", seller='" + seller + '\'' +
-            ", buyer='" + buyer + '\'' +
             ", transactionDate=" + transactionDate +
+           ", buyer='" + (buyer !=null ? user.getId() : "null") + 
             '}';
   }
 }

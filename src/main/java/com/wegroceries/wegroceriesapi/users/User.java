@@ -3,11 +3,14 @@ package com.wegroceries.wegroceriesapi.users;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
+import java.util.ArrayList;
+import com.wegroceries.wegroceriesapi.orders.Order;
 
 // import org.springframework.security.core.userdetails.UserDetails;
 // import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -41,6 +44,10 @@ public class User /* implements UserDetails */ {
     @Column(nullable = false)
     private Instant updatedAt;
 
+// Establishing one-to-many relationship with orders
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
+    
     // Default Constructor
     public User() {}
 

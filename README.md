@@ -84,3 +84,4 @@ If everything is working correctly, the output will appear "stuck" and the comma
 
 ### Stop Application
 Stop the application by pressing `Ctrl + C`
+
