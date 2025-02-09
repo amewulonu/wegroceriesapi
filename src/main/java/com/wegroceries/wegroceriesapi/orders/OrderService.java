@@ -30,7 +30,7 @@ public class OrderService {
 // }
     // Create a new order
     public Order createOrder(String itemName, String category, BigDecimal price, String seller, String buyer) {
-        Order order = new Order(itemName, category, price, seller, buyer, Instant.now());
+        Order order = new Order(itemName, category, price, seller, buyer, Instant.now(), null);
         return orderRepository.save(order);
     }
 

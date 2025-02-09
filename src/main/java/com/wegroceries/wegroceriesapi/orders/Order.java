@@ -50,7 +50,7 @@ private User user;
   // Getters and Setters
   public UUID getId() {
     return id;
-  }
+    }
 
   public String getItemName() {
     return itemName;
@@ -121,5 +121,13 @@ public void setProduct(Product product) {
            ", buyer='" + (buyer !=null ? user.getId() : "null") + 
             '}';
   }
+
+  public void setId(UUID orderId) {
+    throw new UnsupportedOperationException("Unimplemented method 'setId'");
+  }
+
+public void setUser(User user2) {
+    throw new UnsupportedOperationException("Unimplemented method 'setUser'");
+}
 }
 

@@ -168,4 +168,9 @@ public class User /* implements UserDetails */ {
     public void onUpdate() {
         this.updatedAt = Instant.now();
     }
+
+    public void setId(UUID userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+    }
 }
