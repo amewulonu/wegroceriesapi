@@ -80,8 +80,141 @@ mcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
 2025-01-30T21:38:56.291Z  INFO 27184 --- [wegroceriesapi] [           main] c.w.w.WegroceriesapiApplication          : Started WegroceriesapiApplication in 4.127 seconds (process running for 4.461)
 
 ## IMPORTANT 
-If everything is working correctly, the output will appear "stuck" and the command prompt won't return until you stop the application, which should now be running at http://localhost:8080/api/ious.
+If everything is working correctly, the output will appear "stuck" and the command prompt won't return until you stop the application, which should now be running at http://localhost:8080/api/users.
+
+## The JSON representation of an IOU that you'll get in responses or provide in the request body for POST and PUT requests will resemble the following:
+/*
+{
+    "id": "359a0cdb-0a38-4f07-894f-a2a9bccd271d",
+    "username": "amy",
+    "email": "soso@example.com",
+    "password": "securePass123",
+    "firstName": "Amy",
+    "lastName": "Solomon",
+    "createdAt": "2025-02-11T19:57:36.355839300Z",
+    "updatedAt": "2025-02-11T19:57:36.355839300Z"
+} 
 
 ### Stop Application
 Stop the application by pressing `Ctrl + C`
 
+## API Endpoints
+Below are the primary endpoints for Users, Products, and Orders:
+
+### User Endpoints:
+Method	Endpoint	Description	Auth Required
+POST	/api/users/register	Register a new user	 No
+POST	/api/users/login	Authenticate user No
+GET	/api/users/{id}	Get user by ID	 Yes
+PUT	/api/users/{id}	Update user details Yes
+DELETE	/api/users/{id}	Delete user	 Yes
+
+### Product Endpoints:
+Method	Endpoint	Description	    Auth Required
+POST	/api/products	Add a new product	 Yes
+GET	/api/products	Retrieve all products	 No
+GET	/api/products/{id}	Get product by ID	 No
+PUT	/api/products/{id}	Update product details Yes
+DELETE	/api/products/{id}	Delete a product	 Yes
+
+### Order Endpoints:
+Method	Endpoint	Description	 Auth Required
+POST	/api/orders	Place a new order	 Yes
+GET	/api/orders	Retrieve all orders	 Yes
+GET	/api/orders/{id}	Get order by ID	 Yes
+PUT	/api/orders/{id}	Update order details  Yes
+DELETE	/api/orders/{id}	Cancel an order	 Yes
+
+## Authentication & Security
+Uses JWT (JSON Web Token) for authentication.
+Include the Authorization: Bearer <token> in request headers.
+
+### Example Login Response:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5..."
+}
+
+### Register a New User
+POST http://localhost:8080/api/users/register 
+
+         {
+           "username": "john_doe",
+           "email": "john@example.com",
+           "password": "password123"
+         }'
+
+### Get All Products
+GET http://localhost:8080/api/products
+
+### Place an Order
+POST http://localhost:8080/api/orders
+'{
+           "itemName": "Laptop",
+           "category": "Electronics",
+           "price": 1500,
+           "seller": "TechStore",
+           "buyer": "JohnDoe"
+         }'
+
+## Deployment
+The API can be deployed using Docker, AWS, or Heroku.
+
+## Run with Docker
+
+## Features
+User Management: Registration, login, authentication, and profile updates.
+Product Management: Add, update, delete, and retrieve product details.
+Order Processing: Create, view, update, and delete orders.
+Security: JWT-based authentication and role-based access control.
+
+## Key Tools & Technologies
+ Backend: Spring Boot, Java, Maven
+ Database: MySQL
+ Security: Spring Security, JWT Authentication
+ Testing: JUnit, Mockito, Postman
+ Deployment: Docker, AWS/Heroku/Render
+ Version Control: GitHub
+ Project Management method:  Kanban - GitHub
+
+## Conclusion
+This API provides a scalable, secure, and efficient way to manage groceries online.
+For any issues, create a GitHub Issue or reach out to the WeGroceries API team.
+
+## Project strusture
+
+src
+├── main
+│   ├── java
+│   │   ├── com
+│   │   │   ├── wegroceries
+│   │   │   │   ├── WeGroceriesApplication.java       # Main application entry point
+│   │   │   │   ├── authentication                    # Authentication feature
+│   │   │   │   │   ├── AuthenticationRequest.java    # Authentication request model
+│   │   │   │   │   ├── AuthenticationResponse.java   # Authentication response model
+│   │   │   │   ├── config                            # Configuration classes
+│   │   │   │   │   ├── SecurityConfig.java           # Security configuration
+│   │   │   │   ├── common                            # Common utilities and error handling
+│   │   │   │   ├── products                          # Product feature
+│   │   │   │   │   ├── Product.java                  # Product model
+│   │   │   │   │   ├── ProductController.java        # Product controller
+│   │   │   │   │   ├── ProductService.java           # Product service
+│   │   │   │   │   └── ProductRepository.java        # Product repository
+│   │   │   │   ├── orders                            # Order feature
+│   │   │   │   │   ├── Order.java                    # Order model
+│   │   │   │   │   ├── OrderController.java          # Order controller
+│   │   │   │   │   ├── OrderService.java             # Order service
+│   │   │   │   │   └── OrderRepository.java          # Order repository
+│   │   │   │   ├── users                             # User feature
+│   │   │   │   │   ├── User.java                     # User model
+│   │   │   │   │   ├── UserController.java           # User controller
+│   │   │   │   │   ├── UserRepository.java           # User repository
+│   │   │   │   │   ├── UserService.java              # User service logic
+│   │   │   │   ├── exception                         # Global exceptions
+│   │   │   │   ├── model                             # Additional models
+│   │   │   │   │   └── User.java                     # User model (merged from the second structure)
+│   │   │   │   ├── service                           # Service layer
+│   │   │   │   │   └── CustomUserDetailsService.java # Custom user details service
+│   │   │   │   └── util                              # Common utilities
+│   ├── resources
+│   │   ├── application.properties                    # Application properties (e.g., DB config, server)
+└── pom.xml                                           # Maven build file with dependencies
