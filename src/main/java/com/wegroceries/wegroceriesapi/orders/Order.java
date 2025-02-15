@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
+import java.util.Set;
 
 import com.wegroceries.wegroceriesapi.products.Product;
 import com.wegroceries.wegroceriesapi.users.User;
@@ -31,6 +32,15 @@ private User user;
 @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+  // Many-to-Many relationship with Product
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "order_products", // Name of the join table
+      joinColumns = @JoinColumn(name = "order_id"), // Foreign key for orders
+      inverseJoinColumns = @JoinColumn(name = "product_id") // Foreign key for products
+  )
+  private Set<Product> products; // Set to store multiple products
+
   // Parameterized Constructor
   public Order(String itemName, String category, BigDecimal price, String seller, String buyer, Instant transactionDate, Product product) {
     this.itemName = itemName;
@@ -39,7 +49,7 @@ private User user;
     this.seller = seller;
     this.buyer = buyer;
     this.transactionDate = transactionDate;
-    this.product = product;
+    this.product = product;  // Set the products
   }
 
   // Default Constructor
