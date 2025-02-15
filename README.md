@@ -187,34 +187,41 @@ src
 │   ├── java
 │   │   ├── com
 │   │   │   ├── wegroceries
-│   │   │   │   ├── WeGroceriesApplication.java       # Main application entry point
-│   │   │   │   ├── authentication                    # Authentication feature
-│   │   │   │   │   ├── AuthenticationRequest.java    # Authentication request model
-│   │   │   │   │   ├── AuthenticationResponse.java   # Authentication response model
-│   │   │   │   ├── config                            # Configuration classes
-│   │   │   │   │   ├── SecurityConfig.java           # Security configuration
-│   │   │   │   ├── common                            # Common utilities and error handling
-│   │   │   │   ├── products                          # Product feature
-│   │   │   │   │   ├── Product.java                  # Product model
-│   │   │   │   │   ├── ProductController.java        # Product controller
-│   │   │   │   │   ├── ProductService.java           # Product service
-│   │   │   │   │   └── ProductRepository.java        # Product repository
-│   │   │   │   ├── orders                            # Order feature
-│   │   │   │   │   ├── Order.java                    # Order model
-│   │   │   │   │   ├── OrderController.java          # Order controller
-│   │   │   │   │   ├── OrderService.java             # Order service
-│   │   │   │   │   └── OrderRepository.java          # Order repository
-│   │   │   │   ├── users                             # User feature
-│   │   │   │   │   ├── User.java                     # User model
-│   │   │   │   │   ├── UserController.java           # User controller
-│   │   │   │   │   ├── UserRepository.java           # User repository
-│   │   │   │   │   ├── UserService.java              # User service logic
-│   │   │   │   ├── exception                         # Global exceptions
-│   │   │   │   ├── model                             # Additional models
-│   │   │   │   │   └── User.java                     # User model (merged from the second structure)
-│   │   │   │   ├── service                           # Service layer
-│   │   │   │   │   └── CustomUserDetailsService.java # Custom user details service
-│   │   │   │   └── util                              # Common utilities
+│   │   │   │   ├── WeGroceriesApplication.java        # Main application entry point
+│   │   │   │   ├── Exception                          # Exception features
+│   │   │   │   │   ├── GlobalExceptionHandler.java    # Custom Exception
+│   │   │   │   │   ├── InvalidUserDataException.java  # Custom Exception
+│   │   │   │   │   ├── OrderNotFoundException.java    # Custom Exception
+│   │   │   │   │   ├── UserNameNotFoundException.java # Custom Exception
+│   │   │   │   │   ├── UserNotFoundException.java     # Custom Exception
+│   │   │   │   ├── orders                             # Order feature
+│   │   │   │   │   ├── Order.java                     # Order entity
+│   │   │   │   │   ├── OrderController.java           # Order controller
+│   │   │   │   │   ├── OrderRepository.java           # Order Repository 
+│   │   │   │   │   └── OrderService.java              # Order service
+│   │   │   │   ├── products                           # Product feature
+│   │   │   │   │   ├── Product.java                   # Product entity
+│   │   │   │   │   ├── ProductController.java         # Product controller
+│   │   │   │   │   └── ProductRepository.java         # Product repository
+│   │   │   │   │   ├── ProductService.java            # Product service
+│   │   │   │   ├── users                              # User feature
+│   │   │   │   │   ├── CustomUserDetailsService.java  # Custom User Details
+│   │   │   │   │   ├── User.java                      # User entity
+│   │   │   │   │   ├── UserController.java            # User controller
+│   │   │   │   │   ├── UserRepository.java            # User repository
+│   │   │   │   │   ├── UserService.java               # User service logic
+│   │   │   │   ├── WegroceriesapiApplication.java     # Global exceptions
 │   ├── resources
-│   │   ├── application.properties                    # Application properties (e.g., DB config, server)
-└── pom.xml                                           # Maven build file with dependencies
+│   │   ├── application.properties                     # Application properties (e.g., DB config, server)
+│   │   ├── local.properties
+│   ├── test\java\com\wegroceries                      # Application test
+│   │   ├── orders        
+│   │   │   ├── OderControllerTest.java                # Application test
+│   │   ├── products
+│   │   │   ├── ProductControllerTest.java             # Application test
+│   │   ├── users
+│   │   │   ├── UserControllerTest.java                # Application test
+│   │   ├── wegroceriesapi
+│   │   │   ├── wegroceriesapiApplicationTest.java     # wegroceries Application class
+├── pom.xml                                            # Maven build file with dependencies
+└── README.md

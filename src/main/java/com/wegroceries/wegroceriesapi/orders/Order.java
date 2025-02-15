@@ -32,6 +32,15 @@ private User user;
 @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+  // Many-to-Many relationship with User (Many users can be associated with one order)
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "order_users", // Name of the join table
+      joinColumns = @JoinColumn(name = "order_id"), // Foreign key for orders
+      inverseJoinColumns = @JoinColumn(name = "user_id") // Foreign key for users
+  )
+  private Set<User> users; // Set to store multiple users
+
   // Many-to-Many relationship with Product
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
