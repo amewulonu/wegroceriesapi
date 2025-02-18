@@ -1,9 +1,6 @@
 package com.wegroceries.wegroceriesapi.products;
 
 import jakarta.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
@@ -17,27 +14,27 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Product name cannot be null")
-    @Size(min = 1, max = 100, message = "Product name must be between 1 and 100 characters")
+    @jakarta.validation.constraints.NotNull(message = "Product name cannot be null")
+    @jakarta.validation.constraints.Size(min = 1, max = 100, message = "Product name must be between 1 and 100 characters")
     @Column(nullable = false)
     private String name;
 
-    @NotNull(message = "Category cannot be null")
-    @Size(min = 1, max = 50, message = "Category must be between 1 and 50 characters")
+    @jakarta.validation.constraints.NotNull(message = "Category cannot be null")
+    @jakarta.validation.constraints.Size(min = 1, max = 50, message = "Category must be between 1 and 50 characters")
     @Column(nullable = false)
     private String category;
 
-    @NotNull(message = "Price cannot be null")
-    @Min(value = 0, message = "Price must be a positive value")
+    @jakarta.validation.constraints.NotNull(message = "Price cannot be null")
+    @jakarta.validation.constraints.Min(value = 0, message = "Price must be a positive value")
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Min(value = 0, message = "Quantity must be a non-negative value")
+    @jakarta.validation.constraints.Min(value = 0, message = "Quantity must be a non-negative value")
     @Column(nullable = false)
     private int quantity;
 
-    @NotNull(message = "Seller cannot be null")
-    @Size(min = 1, max = 100, message = "Seller name must be between 1 and 100 characters")
+    @jakarta.validation.constraints.NotNull(message = "Seller cannot be null")
+    @jakarta.validation.constraints.Size(min = 1, max = 100, message = "Seller name must be between 1 and 100 characters")
     @Column(nullable = false)
     private String seller;
 

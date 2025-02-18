@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WegroceriesapiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WegroceriesapiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WegroceriesapiApplication.class, args);
+    }
 
 }

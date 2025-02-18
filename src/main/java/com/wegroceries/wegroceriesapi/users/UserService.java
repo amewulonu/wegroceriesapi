@@ -1,29 +1,43 @@
 package com.wegroceries.wegroceriesapi.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    // Create or save a user
-    public User createUser(User user) {
+    // Register a new user
+    public User registerUser(User user) {
+        // Check if username or email already exists
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalArgumentException("Username already exists.");
         }
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists.");
         }
+
+        // Hash the password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Assign default role
+        user.setRoles(Set.of("USER"));
+
+        // Save the user to the database
         return userRepository.save(user);
     }
 
@@ -52,8 +66,12 @@ public class UserService {
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setPassword(updatedUser.getPassword()); 
-        
+
+        // Only update password if a new one is provided
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+
         return userRepository.save(existingUser);
     }
 
@@ -74,5 +92,8 @@ public class UserService {
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
-}
 
+    public User createUser(User user) {
+        throw new UnsupportedOperationException("Unimplemented method 'createUser'");
+    }
+}

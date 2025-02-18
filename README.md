@@ -162,9 +162,12 @@ The API can be deployed using Docker, AWS, or Heroku.
 ## Run with Docker
 
 ## Features
-User Management: Registration, login, authentication, and profile updates.
 Product Management: Add, update, delete, and retrieve product details.
 Order Processing: Create, view, update, and delete orders.
+User management: Create, view, update, and delete users.
+
+## Features Roadmap
+User Management: Registration, login, authentication.
 Security: JWT-based authentication and role-based access control.
 
 ## Key Tools & Technologies

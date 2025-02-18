@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +14,9 @@ import java.util.UUID;
 public class ProductController {
 
     private final ProductService productService;
-
+    
     @Autowired
-    public ProductController(ProductService productService) {
+       public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
