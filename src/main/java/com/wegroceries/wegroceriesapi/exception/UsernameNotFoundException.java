@@ -1,4 +1,4 @@
-package com.wegroceries.wegroceriesapi.users;
+package com.wegroceries.wegroceriesapi.exception;
 
 public class UsernameNotFoundException {
 
