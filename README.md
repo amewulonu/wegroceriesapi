@@ -191,6 +191,12 @@ src
 │   │   ├── com
 │   │   │   ├── wegroceries
 │   │   │   │   ├── WeGroceriesApplication.java        # Main application entry point
+│   │   │   │   ├── categories                         # Add this new package
+│   │   │   │   │   ├── Category.java                  # Entity for categories
+│   │   │   │   │   ├── CategoryController.java        # REST Controller
+│   │   │   │   │   ├── CategoryRepository.java        # Repository for database access
+│   │   │   │   │   ├── CategoryService.java           # Service layer for business logic
+│   │   │   │   │   ├── CategoryDTO.java               # Data Transfer Object (Optional)
 │   │   │   │   ├── Exception                          # Exception features
 │   │   │   │   │   ├── GlobalExceptionHandler.java    # Custom Exception
 │   │   │   │   │   ├── InvalidUserDataException.java  # Custom Exception
@@ -207,11 +213,19 @@ src
 │   │   │   │   │   ├── ProductController.java         # Product controller
 │   │   │   │   │   └── ProductRepository.java         # Product repository
 │   │   │   │   │   ├── ProductService.java            # Product service
-│   │   │   │   ├── users                              # User feature
-│   │   │   │   │   ├── CustomUserDetailsService.java  # Custom User Details
-│   │   │   │   │   ├── User.java                      # User entity
-│   │   │   │   │   ├── UserController.java            # User controller
-│   │   │   │   │   ├── UserRepository.java            # User repository
+│   │   │   │   ├── security                           # Security feature
+│   │   │   │   │   ├── ApiSecurityConfig.java         # ApiSecurityConfig
+│   │   │   │   │   ├── FilterConfig.java              # FilterConfig
+│   │   │   │   │   ├── JwtTokenFilter.java            # JwtTokenFilter
+│   │   │   │   │   ├── JwtTokenProvider.java          # JwtTokenProvider
+│   │   │   │   │   ├── MyCustomFilter.java            # MyCustomFilter
+│   │   │   │   │   ├── UserNamePasswordAuthenticationToken.java # Global exceptions
+│   │   │   │   │   ├── WebSecurityConfigurerAdapter.java  # Custom User Details
+│   │   │   │   ├── users                                  # User feature
+│   │   │   │   │   ├── CustomUserDetailsService.java      # Custom User Details
+│   │   │   │   │   ├── User.java                          # User entity
+│   │   │   │   │   ├── UserController.java                # User controller
+│   │   │   │   │   ├── UserRepository.java                # User repository
 │   │   │   │   │   ├── UserService.java               # User service logic
 │   │   │   │   ├── WegroceriesapiApplication.java     # Global exceptions
 │   ├── resources

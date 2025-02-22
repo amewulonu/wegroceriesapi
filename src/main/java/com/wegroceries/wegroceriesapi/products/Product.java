@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
-
 @Entity
 @Table(name = "products")
 public class Product {
@@ -48,12 +47,20 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
         this.seller = seller;
-        this.addedDate = addedDate;
+        this.addedDate = addedDate != null ? addedDate : Instant.now();
     }
 
     // Default Constructor
     public Product() {
         this("Default Product", "General", BigDecimal.ZERO, 0, "Default Seller", Instant.now());
+    }
+
+    // Add @PrePersist to automatically set addedDate before persisting
+    @PrePersist
+    public void prePersist() {
+        if (addedDate == null) {
+            addedDate = Instant.now();
+        }
     }
 
     // Getters and Setters
@@ -111,6 +118,11 @@ public class Product {
 
     public void setAddedDate(Instant addedDate) {
         this.addedDate = addedDate;
+    }
+
+    // Method to check if product is in stock
+    public boolean isInStock() {
+        return quantity > 0;
     }
 
     // equals() and hashCode() methods for comparison and collection operations
