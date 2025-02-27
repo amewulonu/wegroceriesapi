@@ -17,7 +17,6 @@ import com.wegroceries.wegroceriesapi.orders.OrderService;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +50,7 @@ public class OrderControllerTest {
         order.setUser(user);
     }
 
-    // Test case: Create Order Successfully
+    // Test case: Create Order Successfully (Only Admin)
     @Test
     void testCreateOrder_Success() throws Exception {
         when(orderService.createOrder(any(), any(), any(), any(), any())).thenReturn(order);
@@ -67,7 +66,7 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.price").value(1500));
     }
 
-    // Test case: Get Order By ID - Success
+    // Test case: Get Order By ID - Success (Accessible by Admin, Manager)
     @Test
     void testGetOrderById_Success() throws Exception {
         when(orderService.getOrderById(orderId)).thenReturn(order);
@@ -87,7 +86,7 @@ public class OrderControllerTest {
                 .andExpect(content().string("Order not found"));
     }
 
-    // Test case: Get All Orders
+    // Test case: Get All Orders (Accessible by Admin, Support, Manager)
     @Test
     void testGetAllOrders() throws Exception {
         when(orderService.getAllOrders()).thenReturn(List.of(order));
@@ -97,7 +96,7 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.size()").value(1));
     }
 
-    // Test case: Update Order Successfully
+    // Test case: Update Order Successfully (Only Admin, Manager)
     @Test
     void testUpdateOrder_Success() throws Exception {
         when(orderService.updateOrder(any(), any())).thenReturn(order);
@@ -109,7 +108,7 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.itemName").value("Laptop"));
     }
 
-    // Test case: Delete Order Successfully
+    // Test case: Delete Order Successfully (Only Admin)
     @Test
     void testDeleteOrder_Success() throws Exception {
         Mockito.doNothing().when(orderService).deleteOrder(orderId);
@@ -128,7 +127,7 @@ public class OrderControllerTest {
                 .andExpect(content().string("Order not found"));
     }
 
-    // Test case: Get Orders By Buyer
+    // Test case: Get Orders By Buyer (Accessible by Admin, Support, Customer)
     @Test
     void testGetOrdersByBuyer() throws Exception {
         when(orderService.getOrdersByBuyer("JohnDoe")).thenReturn(List.of(order));
@@ -138,7 +137,7 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.size()").value(1));
     }
 
-    // Test case: Get Orders By Seller
+    // Test case: Get Orders By Seller (Accessible by Admin, Support, Vendor)
     @Test
     void testGetOrdersBySeller() throws Exception {
         when(orderService.getOrdersBySeller("TechStore")).thenReturn(List.of(order));

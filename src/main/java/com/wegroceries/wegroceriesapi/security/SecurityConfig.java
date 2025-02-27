@@ -66,7 +66,14 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin/**").hasRole("ADMIN") // Only accessible to ADMINs
                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // Accessible to USER and ADMIN
                 .requestMatchers("/api/manager/**").hasRole("MANAGER") // Accessible to MANAGER
-                .anyRequest().authenticated();
+                .requestMatchers("/api/support/**").hasRole("SUPPORT") // Accessible to SUPPORT
+                .requestMatchers("/api/vendor/**").hasRole("VENDOR") // Accessible to VENDOR
+                .requestMatchers("/api/delivery/**").hasRole("DELIVERY_PERSON") // Accessible to DELIVERY_PERSON
+                .requestMatchers("/api/analyst/**").hasRole("ANALYST") // Accessible to ANALYST
+                .requestMatchers("/api/marketer/**").hasRole("MARKETER") // Accessible to MARKETER
+                .requestMatchers("/api/developer/**").hasRole("DEVELOPER") // Accessible to DEVELOPER
+                .requestMatchers("/api/customer/**").hasRole("CUSTOMER") // Accessible to CUSTOMER
+                .anyRequest().authenticated(); // Any other requests require authentication
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
