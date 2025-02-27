@@ -14,57 +14,63 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.wegroceries.wegroceriesapi.security.AuthTokenFilter; // Fixed import
-import com.wegroceries.wegroceriesapi.users.CustomUserDetailsService; // Fixed import
+import com.wegroceries.wegroceriesapi.security.AuthTokenFilter;
+import com.wegroceries.wegroceriesapi.users.CustomUserDetailsService;
 
 @Configuration
-@EnableMethodSecurity
+@EnableMethodSecurity(
+    securedEnabled = true, // Enables @Secured annotation
+    jsr250Enabled = true,  // Enables @RolesAllowed annotation
+    prePostEnabled = true  // Enables @PreAuthorize and @PostAuthorize annotations
+)
 public class SecurityConfig {
 
-  @Autowired
-  private CustomUserDetailsService userDetailsService;
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
-  @Autowired
-  private AuthEntryPointJwt unauthorizedHandler;
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
 
-  @Bean
-  public AuthTokenFilter authenticationJwtTokenFilter() {
-    return new AuthTokenFilter();
-  }
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
 
-  @Bean
-  public DaoAuthenticationProvider authenticationProvider() {
-    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    authProvider.setUserDetailsService(userDetailsService);
-    authProvider.setPasswordEncoder(passwordEncoder());
-    return authProvider;
-  }
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
 
-  @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-    return authConfig.getAuthenticationManager();
-  }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-        .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .authorizeRequests()
-        .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
-        .anyRequest().authenticated();
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeHttpRequests()
+                .requestMatchers("/api/auth/**", "/api/test/**").permitAll() // Public endpoints
+                .requestMatchers("/api/admin/**").hasRole("ADMIN") // Only accessible to ADMINs
+                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // Accessible to USER and ADMIN
+                .requestMatchers("/api/manager/**").hasRole("MANAGER") // Accessible to MANAGER
+                .anyRequest().authenticated();
 
-    http.authenticationProvider(authenticationProvider());
+        http.authenticationProvider(authenticationProvider());
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-    return http.build();
-  }
+        return http.build();
+    }
 }

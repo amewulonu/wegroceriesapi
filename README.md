@@ -109,21 +109,45 @@ GET	/api/users/{id}	Get user by ID	 Yes
 PUT	/api/users/{id}	Update user details Yes
 DELETE	/api/users/{id}	Delete user	 Yes
 
+## UserRoles Endpoints Roles added to the endpoints:
+
+/api/admin/**: Only accessible by users with the ADMIN role.
+/api/user/**: Accessible to both USER and ADMIN roles.
+/api/manager/**: Accessible by users with the MANAGER role.
+/api/support/**: Accessible by users with the SUPPORT role.
+/api/vendor/**: Accessible by users with the VENDOR role.
+/api/delivery/**: Accessible by users with the DELIVERY_PERSON role.
+/api/analyst/**: Accessible by users with the ANALYST role.
+/api/marketer/**: Accessible by users with the MARKETER role.
+/api/developer/**: Accessible by users with the DEVELOPER role.
+/api/customer/**: Accessible by users with the CUSTOMER role.
+
 ### Product Endpoints:
-Method	Endpoint	Description	    Auth Required
-POST	/api/products	Add a new product	 Yes
-GET	/api/products	Retrieve all products	 No
-GET	/api/products/{id}	Get product by ID	 No
-PUT	/api/products/{id}	Update product details Yes
-DELETE	/api/products/{id}	Delete a product	 Yes
+
+Endpoint	Allowed Roles
+POST /api/products (Create Product)	ADMIN only
+GET /api/products/{id} (Get Product by ID)	Everyone
+GET /api/products (Get All Products)	Everyone
+PUT /api/products/{id} (Update Product)	ADMIN only
+DELETE /api/products/{id} (Delete Product)	ADMIN only
+GET /api/products/exists (Check Product Existence)	Everyone
+
+## Category Endpoint
+
+Endpoint	Allowed Roles
+POST /api/categories (Create Category)	ADMIN only
+GET /api/categories (Get All Categories)	Everyone
+GET /api/categories/{id} (Get Category by ID)	Everyone
+DELETE /api/categories/{id} (Delete Category)	ADMIN only
 
 ### Order Endpoints:
-Method	Endpoint	Description	 Auth Required
-POST	/api/orders	Place a new order	 Yes
-GET	/api/orders	Retrieve all orders	 Yes
-GET	/api/orders/{id}	Get order by ID	 Yes
-PUT	/api/orders/{id}	Update order details  Yes
-DELETE	/api/orders/{id}	Cancel an order	 Yes
+Endpoint	Allowed Roles
+POST /api/orders (Create Order)	ADMIN only
+GET /api/orders/{id} (Get Order by ID)	Everyone
+GET /api/orders (Get All Orders)	Everyone
+PUT /api/orders/{id} (Update Order)	ADMIN only
+DELETE /api/orders/{id} (Delete Order)	ADMIN only
+
 
 ## Authentication & Security
 Uses JWT (JSON Web Token) for authentication.

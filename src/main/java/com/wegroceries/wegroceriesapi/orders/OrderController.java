@@ -2,6 +2,7 @@ package com.wegroceries.wegroceriesapi.orders;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.wegroceries.wegroceriesapi.products.Product;
@@ -20,7 +21,8 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    // Create a new order with all parameters
+    // ✅ Create a new order (Only Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Order> createOrder(
         @RequestParam String itemName,
@@ -46,28 +48,30 @@ public class OrderController {
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 
-    // Get order by ID
+    // ✅ Get order by ID (Accessible to Everyone)
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable UUID id) {
         Order order = orderService.getOrderById(id);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    // Update an order
+    // ✅ Update an order (Only Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable UUID id, @RequestBody Order order) {
         Order updatedOrder = orderService.updateOrder(id, order);
         return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     }
 
-    // Delete an order
+    // ✅ Delete an order (Only Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable UUID id) {
         orderService.deleteOrder(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // Get all orders
+    // ✅ Get all orders (Accessible to Everyone)
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();

@@ -3,11 +3,11 @@ package com.wegroceries.wegroceriesapi.products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -18,11 +18,12 @@ public class ProductController {
     private final ProductService productService;
     
     @Autowired
-       public ProductController(ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    // Endpoint to create a new product with validation
+    // ✅ Create a new product (Only Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> createProduct(@Valid @RequestBody Product product, BindingResult result) {
         if (result.hasErrors()) {
@@ -36,7 +37,7 @@ public class ProductController {
         }
     }
 
-    // Endpoint to get a product by ID
+    // ✅ Get a product by ID (Accessible to Everyone)
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable UUID id) {
         try {
@@ -47,14 +48,15 @@ public class ProductController {
         }
     }
 
-    // Endpoint to get all products
+    // ✅ Get all products (Accessible to Everyone)
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    // Endpoint to update a product with validation
+    // ✅ Update a product (Only Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable UUID id, @Valid @RequestBody Product productDetails, BindingResult result) {
         if (result.hasErrors()) {
@@ -68,7 +70,8 @@ public class ProductController {
         }
     }
 
-    // Endpoint to delete a product by ID
+    // ✅ Delete a product (Only Admin)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable UUID id) {
         try {
@@ -79,11 +82,10 @@ public class ProductController {
         }
     }
 
-    // Endpoint to check if a product exists by name and category
+    // ✅ Check if a product exists (Accessible to Everyone)
     @GetMapping("/exists")
     public ResponseEntity<Boolean> productExists(@RequestParam String name, @RequestParam String category) {
         boolean exists = productService.productExists(name, category);
         return new ResponseEntity<>(exists, HttpStatus.OK);
     }
 }
-
