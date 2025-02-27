@@ -40,9 +40,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
-    // Use @ElementCollection for roles as a Set of strings
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> roles = new HashSet<>();
+    // Many-to-many relationship with roles
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     // Default Constructor
     public User() {}
@@ -63,7 +68,6 @@ public class User implements UserDetails {
         return id;
     }
 
-    // Add the setId method
     public void setId(UUID id) {
         this.id = id;
     }
@@ -124,11 +128,11 @@ public class User implements UserDetails {
         this.updatedAt = updatedAt;
     }
 
-    public Set<String> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<String> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -162,8 +166,8 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role));
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
         }
         return authorities;
     }
@@ -186,5 +190,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true; // Account is enabled
+    }
+
+    public void setRoleNames(Set<String> roleNames) {
+        throw new UnsupportedOperationException("Unimplemented method 'setRoleNames'");
     }
 }
