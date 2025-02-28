@@ -31,13 +31,14 @@ public class UserService {
             throw new IllegalArgumentException("Email already exists.");
         }
 
-        // Hash the password
+    // Hash the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Assign default role
-        user.setRoles(Set.of("USER"));
+    // Correct: Adding a Role using the ERole enum
+       user.getRoles().add(new Role(ERole.ROLE_CUSTOMER));
 
-        // Save the user to the database
+
+    // Save the user to the database
         return userRepository.save(user);
     }
 
