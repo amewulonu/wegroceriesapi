@@ -39,6 +39,11 @@ public class Role {
         this.name = name;
     }
 
+    // Overloaded setName method to accept a String
+    public void setName(String name) {
+        this.name = ERole.valueOf(name); // Convert String to ERole enum
+    }
+
     // Equals and HashCode
     @Override
     public boolean equals(Object o) {
@@ -60,9 +65,5 @@ public class Role {
                 "id=" + id +
                 ", name=" + name +
                 '}';
-    }
-
-    public void setName(String string) {
-      throw new UnsupportedOperationException("Unimplemented method 'setName'");
     }
 }

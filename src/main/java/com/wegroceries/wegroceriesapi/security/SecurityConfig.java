@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.wegroceries.wegroceriesapi.security.AuthTokenFilter;
 import com.wegroceries.wegroceriesapi.users.CustomUserDetailsService;
 
 @Configuration
@@ -62,7 +61,8 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**", "/api/test/**").permitAll() // Public endpoints
+                .requestMatchers("/api/auth/**").permitAll() // Public endpoints for authentication
+                .requestMatchers("/api/test/**").permitAll() // Public endpoints for testing
                 .requestMatchers("/api/admin/**").hasRole("ADMIN") // Only accessible to ADMINs
                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // Accessible to USER and ADMIN
                 .requestMatchers("/api/manager/**").hasRole("MANAGER") // Accessible to MANAGER
