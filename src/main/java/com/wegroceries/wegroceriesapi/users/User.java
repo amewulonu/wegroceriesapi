@@ -170,7 +170,6 @@ public class User /* implements UserDetails */ {
     }
 
     public void setId(UUID userId) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setId'");
     }
 }
