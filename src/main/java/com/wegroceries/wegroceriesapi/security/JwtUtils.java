@@ -12,18 +12,25 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 
 @Component
 public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${wegroceries.app.jwtSecret}")
+    @Value("${app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${wegroceries.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    @Value("${app.jwtExpirationMs}")
+    private long jwtExpirationMs;
 
+    /**
+     * Generates a JWT token for the authenticated user.
+     *
+     * @param authentication The authentication object containing user details.
+     * @return A JWT token as a String.
+     */
     public String generateJwtToken(Authentication authentication) {
         // Cast the principal to UserDetailsImpl (ensure this class exists in your project)
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -37,11 +44,22 @@ public class JwtUtils {
                 .compact(); // Compact the JWT into a string
     }
 
+    /**
+     * Generates a Key object from the base64-encoded JWT secret.
+     *
+     * @return A Key object for signing and verifying JWT tokens.
+     */
     private Key key() {
         // Decode the base64 secret and generate the key
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
+    /**
+     * Extracts the username from a JWT token.
+     *
+     * @param token The JWT token as a String.
+     * @return The username (subject) from the token, or null if parsing fails.
+     */
     public String getUserNameFromJwtToken(String token) {
         try {
             // Parse the token and get the username (subject)
@@ -57,14 +75,22 @@ public class JwtUtils {
         return null;
     }
 
+    /**
+     * Validates a JWT token.
+     *
+     * @param authToken The JWT token as a String.
+     * @return true if the token is valid, false otherwise.
+     */
     public boolean validateJwtToken(String authToken) {
         try {
             // Validate the JWT token
             Jwts.parserBuilder()
                     .setSigningKey(key())
                     .build()
-                    .parse(authToken);
+                    .parseClaimsJws(authToken);
             return true;
+        } catch (SignatureException e) {
+            logger.error("Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {

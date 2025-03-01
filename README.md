@@ -5,6 +5,9 @@ wegroceriesapi is a RESTful service designed to enable sellers, buyers, and deli
 
 ## Getting Started
 
+## Project Management 
+GitHub kanban board
+
 ### Clone Repository
 1. Fork this repository in your GitHub account
 2. Clone your fork locally or open in CodeSpaces.
