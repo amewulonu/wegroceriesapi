@@ -5,24 +5,14 @@ import java.time.Instant;
 import java.util.UUID;
 import java.util.ArrayList;
 import com.wegroceries.wegroceriesapi.orders.Order;
-
-// import org.springframework.security.core.userdetails.UserDetails;
-// import org.springframework.security.core.GrantedAuthority;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User /* implements UserDetails */ {
-
-    // @Override
-    // public Collection<? extends GrantedAuthority> getAuthorities() {
-    //     return Collections.emptyList(); // or return appropriate authorities
-    // }
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // Use AUTO or adjust as per your database.
+    @GeneratedValue(strategy = GenerationType.AUTO) // Adjust as per your database strategy
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -44,7 +34,7 @@ public class User /* implements UserDetails */ {
     @Column(nullable = false)
     private Instant updatedAt;
 
-// Establishing one-to-many relationship with orders
+    // Establishing one-to-many relationship with orders
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
     
@@ -62,9 +52,17 @@ public class User /* implements UserDetails */ {
         this.updatedAt = updatedAt;
     }
 
-
     public UUID getId() {
         return id;
+    }
+
+    // Implemented setId method (Manually setting the ID - caution is required)
+    public void setId(UUID id) {
+        // In most cases, setting the ID manually is discouraged since it's typically auto-generated.
+        if (this.id != null) {
+            throw new IllegalStateException("ID cannot be changed once assigned.");
+        }
+        this.id = id;
     }
 
     public String getUsername() {
@@ -123,30 +121,10 @@ public class User /* implements UserDetails */ {
         this.updatedAt = updatedAt;
     }
 
-    // @Override
-    // public boolean isAccountNonExpired() {
-    //     return true;
-    // }
-
-    // @Override
-    // public boolean isAccountNonLocked() {
-    //     return true;
-    // }
-
-    // @Override
-    // public boolean isCredentialsNonExpired() {
-    //     return true;
-    // }
-
-    // @Override
-    // public boolean isEnabled() {
-    //     return true;
-    // }
-
     // toString Method
     @Override
     public String toString() {
-        return "Users{" +
+        return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
@@ -167,9 +145,5 @@ public class User /* implements UserDetails */ {
     @PreUpdate
     public void onUpdate() {
         this.updatedAt = Instant.now();
-    }
-
-    public void setId(UUID userId) {
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
     }
 }

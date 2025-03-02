@@ -12,6 +12,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -74,5 +75,11 @@ public class UserService {
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
-}
 
+    // Fetch a user by ID
+    public User findById(UUID userId) {
+        // This method retrieves the user from the repository using the provided ID.
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
+    }
+}

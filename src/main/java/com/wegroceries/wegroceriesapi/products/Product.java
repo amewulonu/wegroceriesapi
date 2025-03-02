@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
-
+import com.wegroceries.wegroceriesapi.users.User; // Adjust the package path as necessary
 
 @Entity
 @Table(name = "products")
@@ -44,19 +44,25 @@ public class Product {
     @Column(nullable = false)
     private Instant addedDate;
 
+    // Add the user relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // Assuming you have a User entity
+
     // Parameterized Constructor
-    public Product(String name, String category, BigDecimal price, int quantity, String seller, Instant addedDate) {
+    public Product(String name, String category, BigDecimal price, int quantity, String seller, Instant addedDate, User user) {
         this.name = name;
         this.category = category;
         this.price = price;
         this.quantity = quantity;
         this.seller = seller;
         this.addedDate = addedDate;
+        this.user = user; // Set the user
     }
 
     // Default Constructor
     public Product() {
-        this("Default Product", "General", BigDecimal.ZERO, 0, "Default Seller", Instant.now());
+        this("Default Product", "General", BigDecimal.ZERO, 0, "Default Seller", Instant.now(), null);
     }
 
     // Getters and Setters
@@ -116,6 +122,14 @@ public class Product {
         this.addedDate = addedDate;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     // equals() and hashCode() methods for comparison and collection operations
     @Override
     public boolean equals(Object o) {
@@ -141,6 +155,7 @@ public class Product {
                 ", quantity=" + quantity +
                 ", seller='" + seller + '\'' +
                 ", addedDate=" + addedDate +
+                ", user=" + user + // Include user in toString for better output
                 '}';
     }
 }
