@@ -1,9 +1,12 @@
 # wegrocerieapi
 
 ## Description
-wegroceriesapi is a RESTful service designed to enable sellers, buyers, and delivery services to connect seamlessly for wholesale grocery transactions. It supports authentication, product management, order processing, and user management. The UserService module provides essential functionalities for user registration, retrieval, updating, and deletion. It ensures unique usernames and emails, maintains user records securely, and facilitates user identity validation. Built using Java and Spring Boot, this API adheres to a clean and modular structure for easy scalability, maintainability, and robust user management.
+wegroceriesapi is a RESTful service designed to enable sellers, buyers, and delivery services to connect seamlessly for wholesale grocery transactions. It supports product management, order processing, and user management using CRUD to place an order, retrieve all orders, get order details by ID and update order details. The UserService module provides essential functionalities for user registration, retrieval, updating, and deletion. This API adheres to a clean and modular structure for easy scalability, maintainability, and robust user management.
 
 ## Getting Started
+
+## Project Management 
+GitHub kanban board 
 
 ### Clone Repository
 1. Fork this repository in your GitHub account
@@ -125,41 +128,14 @@ GET	/api/orders/{id}	Get order by ID	 Yes
 PUT	/api/orders/{id}	Update order details  Yes
 DELETE	/api/orders/{id}	Cancel an order	 Yes
 
-## Authentication & Security
-Uses JWT (JSON Web Token) for authentication.
-Include the Authorization: Bearer <token> in request headers.
-
-### Example Login Response:
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5..."
-}
-
-### Register a New User
-POST http://localhost:8080/api/users/register 
-
-         {
-           "username": "john_doe",
-           "email": "john@example.com",
-           "password": "password123"
-         }'
-
-### Get All Products
-GET http://localhost:8080/api/products
-
-### Place an Order
-POST http://localhost:8080/api/orders
-'{
-           "itemName": "Laptop",
-           "category": "Electronics",
-           "price": 1500,
-           "seller": "TechStore",
-           "buyer": "JohnDoe"
-         }'
-
-## Deployment
-The API can be deployed using Docker, AWS, or Heroku.
-
-## Run with Docker
+## Key Tools & Technologies
+ Backend: Spring Boot, Java, Maven
+ Database: MySQL
+ Security: Spring Security, JWT Authentication
+ Testing: JUnit, Mockito, Postman
+ Deployment: Docker, AWS/Heroku/Render
+ Version Control: GitHub
+ Project Management method:  Kanban - GitHub
 
 ## Features
 Product Management: Add, update, delete, and retrieve product details.
@@ -169,15 +145,12 @@ User management: Create, view, update, and delete users.
 ## Features Roadmap
 User Management: Registration, login, authentication.
 Security: JWT-based authentication and role-based access control.
+Authentication: Include the Authorization: Bearer <token> in request headers.
 
-## Key Tools & Technologies
- Backend: Spring Boot, Java, Maven
- Database: MySQL
- Security: Spring Security, JWT Authentication
- Testing: JUnit, Mockito, Postman
- Deployment: Docker, AWS/Heroku/Render
- Version Control: GitHub
- Project Management method:  Kanban - GitHub
+## Deployment
+The API can be deployed using Docker, AWS, or Heroku.
+
+## Run with Docker
 
 ## Conclusion
 This API provides a scalable, secure, and efficient way to manage groceries online.
