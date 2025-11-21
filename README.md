@@ -1,7 +1,7 @@
 # wegrocerieapi
 
 ## Description
-wegroceriesapi is a RESTful service designed to enable sellers, buyers, and delivery services to connect seamlessly for wholesale grocery transactions. It supports product management, order processing, and user management using CRUD to place an order, retrieve all orders, get order details by ID and update order details. The UserService module provides essential functionalities for user registration, retrieval, updating, and deletion. This API adheres to a clean and modular structure for easy scalability, maintainability, and robust user management.
+WeGroceriesAPI is a RESTful backend service built with Java and Spring Boot, designed to support seamless interactions between sellers, buyers, and delivery services within a wholesale grocery trading system. The API provides full CRUD functionality for product management, user management, and order processing, allowing users to register, log in, place orders, retrieve orders by ID, view all orders, and update or delete records as needed. The User Service module powers secure and efficient user operations, including registration, retrieval, updates, and deletion. The system is built using a clean, modular architecture with Spring Boot, JPA/Hibernate, and MySQL to ensure scalability, maintainability, and robust data handling. The project also integrates Spring Security with JWT for authentication, ensuring a secure and production-ready API design.
 
 ## Getting Started
 
